@@ -1,0 +1,7 @@
+*.npz
+*.ply
+cache_npz/
+**/stdout.log
+__pycache__/
+*.py[cod]
+*.pyc 
