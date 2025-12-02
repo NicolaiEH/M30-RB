@@ -1,0 +1,11 @@
+slam_backend:
+  ros__parameters:
+    gravity: 9.81                 # gravity magnitude
+    imu_accel_sigma: 0.08         # accel noise std (m/s^2)
+    imu_gyro_sigma: 0.008         # gyro noise std (rad/s)
+    imu_bias_accel_sigma: 0.001   # accel bias random walk
+    imu_bias_gyro_sigma: 0.0001   # gyro bias random walk
+    imaging_between_sigma_xyz: 0.25   # translation noise for imaging sonar between factor
+    imaging_between_sigma_rpy: 0.08   # rotation noise for imaging sonar between factor
+    imaging_robust_cauchy: 1.0        # Cauchy kernel scale (outlier robustness)
+    dvl_vel_sigma: 0.15           # DVL velocity prior std (m/s)

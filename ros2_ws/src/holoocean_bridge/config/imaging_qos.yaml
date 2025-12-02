@@ -1,0 +1,25 @@
+/imaging/image:
+  history: keep_last
+  depth: 10
+  reliability: best_effort
+  durability: volatile
+/imaging/points:
+  history: keep_last
+  depth: 10
+  reliability: reliable
+  durability: volatile
+/imaging/odometry:
+  history: keep_last
+  depth: 10
+  reliability: reliable
+  durability: volatile
+/map:
+  history: keep_last
+  depth: 5
+  reliability: reliable
+  durability: transient_local
+/slam/odom:
+  history: keep_last
+  depth: 10
+  reliability: reliable
+  durability: volatile

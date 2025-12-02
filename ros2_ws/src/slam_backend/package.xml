@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>slam_backend</name>
+  <version>0.0.1</version>
+  <description>Minimal iSAM2 backend for HoloOcean ROS bags (IMU + DVL + imaging odometry).</description>
+
+  <maintainer email="nicolai.enstad.haraldseth@nmbu.no">Nicolai Enstad Haraldseth</maintainer>
+  <license>Proprietary</license>
+
+  <buildtool_depend>ament_python</buildtool_depend>
+
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>diagnostic_msgs</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+
+  <!-- Add more exec_depends if you wrap other message types -->
+</package>

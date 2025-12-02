@@ -1,0 +1,120 @@
+defaults:
+  bag_play_args:
+    - --clock
+  record_topics:
+    - /gt/odom
+    - /slam/odom
+    - /slam/path
+    - /slam/pose
+    - /slam/imu_bias/accel
+    - /slam/imu_bias/gyro
+    - /profiling/points
+  launch_args:
+    use_sim_time: true
+    tf_timeout_sec: 1.0
+    tf_backoff_sec: 0.10
+    slam_publish_map_to_odom_tf: true
+    slam_dvl_staleness_sec: 0.60
+    slam_depth_staleness_sec: 0.60
+    slam_use_dvl_factor: true
+    slam_dvl_use_huber: true
+    profiling_voxel_downsample: 0.05
+    profiling_cfar_k: 1.5
+  sensor_topics:
+    profiling_image: /profiling/image
+    profiling_points: /profiling/points
+    gt_odom: /gt/odom
+  ground_truth:
+    # Octree / GT configuration for PierHarbor
+    cache_dir: /home/nico-enstad/OneDrive/MasterFolder/Code/octree/pierharbor/min10cm_max640/cache_npz
+    scenario_config: ros2_ws/src/holoocean_bridge/config/custom_scenario.json
+    # NPZ tiles are in centimetres; PLY point cloud is already in metres.
+    unit_scale: 0.01
+    max_memory_gb: 48.0
+    downsample_seed: 7
+    # Optional direct NPZ-to-eval-frame translation (fallback when not using PLY).
+    translation_m: [-950.0, -600.0, 0.0]
+    # Use the pre-merged PLY as GT (already expressed in the /gt/odom frame).
+    use_ply_gt: true
+    ply_path: /home/nico-enstad/OneDrive/MasterFolder/Code/octree/pierharbor/min10cm_max640/pointcloud.ply
+    corridor_half_width_m: 25.0
+    corridor_long_margin_m: 25.0
+    corridor_rec_margin_m: 10.0
+    start_anchor:
+      enabled: true
+      radius_m: 5.0
+      vehicle_clearance_m: 62.22
+    query_chunk_size: 50_000
+    xy_margin_m: 25.0
+    z_margin_m: 15.0
+    completeness_grid_m: 0.5
+    false_hit_threshold_m: 1.0
+
+experiments:
+  navigation_accuracy:
+    description: Baseline iSAM2 configuration and targeted ablations.
+    metrics:
+      - nav
+    runs:
+      - id: nav_baseline
+        label: Baseline (Huber, staleness 0.6 s)
+      - id: nav_no_huber
+        label: No Huber on DVL factor
+        overrides:
+          slam_dvl_use_huber: false
+      - id: nav_loose_gating
+        label: Loose DVL/depth gating (1.0 s)
+        overrides:
+          slam_dvl_staleness_sec: 1.0
+          slam_depth_staleness_sec: 1.0
+      - id: nav_dvl_off
+        label: IMU + depth only
+        overrides:
+          slam_use_dvl_factor: false
+  voxel_downsample:
+    description: Bathymetry quality vs voxel filter resolution.
+    metrics:
+      - nav
+      - mapping
+    runs:
+      - id: map_voxel_000
+        label: Voxel 0.00 m
+        overrides:
+          profiling_voxel_downsample: 0.0
+      - id: map_voxel_050
+        label: Voxel 0.05 m (baseline)
+      - id: map_voxel_100
+        label: Voxel 0.10 m
+        overrides:
+          profiling_voxel_downsample: 0.10
+  cfar_threshold:
+    description: CFAR threshold sensitivity (k sweep).
+    metrics:
+      - nav
+      - mapping
+    runs:
+      - id: cfar_k_12
+        label: CFAR k = 1.2
+        overrides:
+          profiling_cfar_k: 1.2
+      - id: cfar_k_15
+        label: CFAR k = 1.5 (baseline)
+      - id: cfar_k_18
+        label: CFAR k = 1.8
+        overrides:
+          profiling_cfar_k: 1.8
+  tf_backoff:
+    description: Pose-at-ping-time TF backoff sensitivity.
+    metrics:
+      - nav
+      - mapping
+    runs:
+      - id: backoff_000
+        label: tf_backoff = 0.0 s
+        overrides:
+          tf_backoff_sec: 0.0
+      - id: backoff_040
+        label: tf_backoff = 0.40 s
+      - id: backoff_400
+        label: tf_backoff = 0.40 s (duplicate for plotting)
+        disabled: true

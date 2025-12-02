@@ -1,0 +1,60 @@
+{
+  "name": "CustomScenario",
+  "package_name": "Ocean",
+  "world": "PierHarbor",
+  "main_agent": "auv",
+
+  "ticks_per_sec": 60,
+  "frames_per_sec":true,
+
+  "octree_min": 0.1,
+  "octree_max": 6.4,
+
+  "env_min": [-1000, -1000, -500],
+  "env_max": [1000, 1000, 500],
+
+  "agents": [
+    {
+      "agent_name": "auv",
+      "agent_type": "BlueROV2",
+      "control_scheme": 0,
+      "location": [-51.5, -705.0, -12.0],
+      "rotation": [0.0, 0.0, 37],
+      "sensors": [
+        { "sensor_type": "PoseSensor", "socket": "IMUSocket", "Hz": 10 },
+        { "sensor_type": "IMUSensor", "socket": "IMUSocket", "Hz": 60,
+          "configuration": {
+            "AccelSigma": 0.0, "AngVelSigma": 0.0,
+            "AccelBiasSigma": 0.0, "AngVelBiasSigma": 0.0,
+            "ReturnBias": false
+          }
+        },
+        { "sensor_type": "DVLSensor", "socket": "DVLSocket", "Hz": 60,
+          "configuration": {
+            "Elevation": 22.5,
+            "VelSigma": 0.0,
+            "ReturnRange": true,
+            "MaxRange": 50.0,
+            "RangeSigma": 0.0
+          }
+        },
+        { "sensor_type": "DepthSensor", "socket": "DepthSocket", "Hz": 60,
+          "configuration": { "Sigma": 0.0 }
+        },
+        { "sensor_type": "ProfilingSonar", "socket": "SonarSocket",
+          "rotation": [0, 90, 0], "Hz": 30,
+          "configuration": {
+            "Azimuth": 120, "Elevation": 1,
+            "RangeMin": 1.0, "RangeMax": 120.0,
+            "AzimuthBins": 360, "RangeBins": 256,
+            "ScaleNoise": false, "AddSigma": 0.0, "MultSigma": 0.0, "RangeSigma": 0.0,
+            "MultiPath": false, "AzimuthStreaks": 0,
+            "ViewRegion": true, "InitOctreeRange": 40, "UseApprox": true
+          }
+        }
+      ]
+    }
+  ],
+  "window_width": 2560,
+  "window_height": 1440
+}
