@@ -3,15 +3,15 @@
 ROS 2 nodes and evaluation tools for the HoloOcean bridge, profiling sonar mapping frontend, and iSAM2 backend used in the thesis.
 
 ## Components
-- `ros2_ws/src/holoocean_bridge`: HoloOcean -> ROS 2 bridge, lawnmower helper, launch files.
-- `ros2_ws/src/profiling_frontend`: Profiling sonar back-projection node and launch.
-- `ros2_ws/src/slam_backend`: Minimal iSAM2 backend node and launch.
+- `ros2_ws/src/holoocean_bridge`: HoloOcean -> ROS 2 bridge, launch files.
+- `ros2_ws/src/profiling_frontend`: Profiling sonar node and launch.
+- `ros2_ws/src/slam_backend`: iSAM2 backend node and launch.
 - `ros2_ws/src/wasd_teleop`: Keyboard teleop for thruster control.
 - `tools`: Bag recording and utility scripts.
 - `evaluation`: Experiment CLI, metrics, and plotting utilities.
 
 ## Setup
-1. Install ROS 2 (Humble or similar) and HoloOcean using their official guides.
+1. Install ROS 2 (Kilted Kaiju) and HoloOcean (version 2.0.1), which are the versions used and tested in this work, following their official installation guides.
 2. From this repo: `pip install -r requirements.txt` in a Python env that matches your ROS 2 install.
 3. Build: `colcon build --symlink-install` inside `ros2_ws`.
 
